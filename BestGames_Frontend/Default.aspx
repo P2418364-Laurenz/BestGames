@@ -9,9 +9,9 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <h1>Yo!</h1>
-            <p>Hello world - from Lewis</p>
-            <p>Another change - from Lewis</p>
+            <h1>Index / Default</h1>
+            <p>This will be the location of the websites HomePage</p>
+            <p>Will be changed before final version</p>
         </div>
     </form>
 </body>
