@@ -45,11 +45,6 @@ namespace BestGames_Libary
                 "\", status:\"" + this.cusAccountStatus + "\"}";
         }
 
-        public void estEncrypt()
-        {
-
-        }
-
         public void encryptPass()
         {
             //Check if password has already been converted to md5, if true DO NOT hash again!
