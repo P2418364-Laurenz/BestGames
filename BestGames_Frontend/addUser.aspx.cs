@@ -37,15 +37,15 @@ public partial class addUser : System.Web.UI.Page
             {
                 popupArguments += ", missing password";
             }
-            if (Request.QueryString["longPassword"] != null)
+            if (Request.QueryString["passwordLength"] != null)
             {
-                popupArguments += ", password too long (must be 6-31 characters)";
+                popupArguments += ", password must be 6-31 characters";
             }
             if (Request.QueryString["missingPasswordRepeat"] != null)
             {
                 popupArguments += ", missing password repeat";
             }
-            if (Request.QueryString["longPasswordRepeat"] != null)
+            if (Request.QueryString["passwordRepeatLength"] != null)
             {
                 popupArguments += ", repeat password too long";
             }
@@ -104,17 +104,17 @@ public partial class addUser : System.Web.UI.Page
             {
                 arguments += "&missingPassword=true";
             }
-            if (inputPassword.Text.Length > 31)
+            if (inputPassword.Text.Length > 31 || inputPassword.Text.Length < 6)
             {
-                arguments += "&longPassword=true";
+                arguments += "&passwordLength=true";
             }
             if (inputPasswordRepeat.Text == "")
             {
                 arguments += "&missingPasswordRepeat=true";
             }
-            if (inputPasswordRepeat.Text.Length > 31)
+            if (inputPasswordRepeat.Text.Length > 31 || inputPasswordRepeat.Text.Length < 6)
             {
-                arguments += "&longPasswordRepeat=true";
+                arguments += "&passwordRepeatLength=true";
             }
             if (inputPassword.Text != inputPasswordRepeat.Text)
             {
