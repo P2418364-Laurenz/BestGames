@@ -74,6 +74,7 @@ public partial class addUser : System.Web.UI.Page
             aCustomer.cusEmail = inputEmail.Text;
             aCustomer.cusPassword = inputPassword.Text;
             Session["aCustomer"] = aCustomer;
+            aCustomer.setUser();
             Response.Redirect("userViewer.aspx");
         } else
         {
