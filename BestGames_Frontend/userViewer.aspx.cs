@@ -12,7 +12,7 @@ public partial class userViewer : System.Web.UI.Page
     {
         clsCustomer aCustomer = new clsCustomer();
         aCustomer = (clsCustomer)Session["aCustomer"];
-        aCustomer.encryptPass();
+        
         Response.Write(aCustomer.toString());
     }
 }
