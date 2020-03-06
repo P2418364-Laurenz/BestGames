@@ -11,17 +11,28 @@ namespace BestGames_Libary
         public String cusPassword = "";
         public DateTime cusDateRegister = DateTime.Now;
         public bool cusAccountStatus = true;
-
-        // Makes a new customer with args name, email and password
-        public void setCustomer(String name, String email, String password)
+        
+        /// <summary>
+        /// Makes a new customer with args name, email and password (password will be encrypted)
+        /// </summary>
+        /// <param name="name">name string</param>
+        /// <param name="email">email string</param>
+        /// <param name="password">password string</param>
+        /// <returns>returns the clsCustomer class with argument attributes</returns>
+        public clsCustomer setCustomer(String name, String email, String password)
         {
             clsCustomer aCustomer = new clsCustomer();
             aCustomer.cusName = name;
             aCustomer.cusEmail = email;
             aCustomer.cusPassword = password;
+            return aCustomer;
         }
 
-        // Returns the customer class information
+        /// <summary>
+        /// TODO!!! Returns all class attributes from the SQL database in clsCustomer class from id argument
+        /// </summary>
+        /// <param name="id">integer id</param>
+        /// <returns>a clsCustomer class with all the attributes of the class id</returns>
         public clsCustomer getCustomer(int id)
         {
             clsCustomer aCustomer = new clsCustomer();
@@ -29,6 +40,7 @@ namespace BestGames_Libary
             return aCustomer;
         }
 
+        /// <summary>Will delete the associated account from the SQL Database</summary>
         public void deleteAccount()
         {
             clsDataConnection tempDb = new clsDataConnection();
@@ -36,7 +48,8 @@ namespace BestGames_Libary
             tempDb.Execute("tblCustomerDelete");
         }
 
-        // returns string with all the customer's information
+        /// <summary>Convert all attributes/variables to string return format</summary>
+        /// <returns>example: {id:"5", name:"Tester", email:"test@test.net", dateRegistered:"05/03/2020 8:13:20 PM", status:"True"}</returns>
         public String toString()
         {
             return "{id:\"" + this.cusId + "\", name:\"" + this.cusName +
@@ -45,17 +58,22 @@ namespace BestGames_Libary
                 "\", status:\"" + this.cusAccountStatus + "\"}";
         }
 
+        /// <summary>Encrypts the cusPassword var, so class cusPassword must be set</summary>
         public void encryptPass()
         {
-            //Check if password has already been converted to md5, if true DO NOT hash again!
-            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            // Check if password has already been converted to md5, if true DO NOT hash again!
+            if (this.cusPassword.Length < 32)
             {
-                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(this.cusPassword);
-                byte[] hashBytes = md5.ComputeHash(inputBytes);
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < hashBytes.Length; i++)
+                using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
                 {
-                    sb.Append(hashBytes[i].ToString("X2"));
+                    byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(this.cusPassword);
+                    byte[] hashBytes = md5.ComputeHash(inputBytes);
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < hashBytes.Length; i++)
+                    {
+                        sb.Append(hashBytes[i].ToString("X2"));
+                    }
+                    this.cusPassword = sb.ToString();
                 }
             }
         }

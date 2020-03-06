@@ -8,6 +8,7 @@ EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "BestGames_Frontend", "BestGames_Frontend\", "{1BF22BB7-D112-4587-AEC7-463E4CA924DD}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6.1"
+		ProjectReferences = "{922ad5a5-aebb-4c62-8876-353346d9ede5}|BestGames_Libary.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_50890"
 		Debug.AspNetCompiler.PhysicalPath = "BestGames_Frontend\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50890\"
@@ -23,6 +24,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "BestGames_Frontend", "BestG
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "50890"
+		SlnRelativePath = "BestGames_Frontend\"
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
