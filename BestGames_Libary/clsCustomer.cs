@@ -19,13 +19,13 @@ namespace BestGames_Libary
         /// <param name="email">email string</param>
         /// <param name="password">password string</param>
         /// <returns>returns the clsCustomer class with argument attributes</returns>
-        public clsCustomer setCustomer(String name, String email, String password)
+        public void setUser()
         {
-            clsCustomer aCustomer = new clsCustomer();
-            aCustomer.cusName = name;
-            aCustomer.cusEmail = email;
-            aCustomer.cusPassword = password;
-            return aCustomer;
+            clsDataConnection tempDb = new clsDataConnection();
+            tempDb.AddParameter("@uName", this.cusName);
+            tempDb.AddParameter("@uEmail", this.cusEmail);
+            tempDb.AddParameter("@uPassword", this.cusPassword);
+            tempDb.Execute("tblCustomerAdd");
         }
 
         /// <summary>
