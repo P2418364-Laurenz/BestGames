@@ -13,12 +13,8 @@ namespace BestGames_Libary
         public bool cusAccountStatus = true;
         
         /// <summary>
-        /// Makes a new customer with args name, email and password (password will be encrypted)
+        /// Makes a new customer with class attributes. All attributes MUST BE present (so pre-execution checking must be in place).
         /// </summary>
-        /// <param name="name">name string</param>
-        /// <param name="email">email string</param>
-        /// <param name="password">password string</param>
-        /// <returns>returns the clsCustomer class with argument attributes</returns>
         public void setUser()
         {
             clsDataConnection tempDb = new clsDataConnection();
@@ -26,6 +22,104 @@ namespace BestGames_Libary
             tempDb.AddParameter("@uEmail", this.cusEmail);
             tempDb.AddParameter("@uPassword", this.cusPassword);
             tempDb.Execute("tblCustomerAdd");
+        }
+
+        /// <summary>
+        /// filters database by the clsCustomer in argument as reference. Uses id, name and email. If you get the wrong output try using fewer arguments (id and email are unique!)
+        /// </summary>
+        /// <param name="reference">a clsCustomer class with desired search parameters</param>
+        /// <returns>A clsCustomer class with the database row's attributes (or id -1 if none found)</returns>
+        public clsCustomer filterCustomer(clsCustomer reference)
+        {
+            // creates new instance of clsCustomer called aCustomer
+            clsCustomer aCustomer = new clsCustomer();
+            // creates new instance of dataBase connection
+            clsDataConnection DB = new clsDataConnection();
+            // checks which attributes are set in the reference clsCustomer class (as mentioned in this classes documentation)
+            if (reference.cusId > 0 || reference.cusName != "" || reference.cusEmail != "")
+            {
+                // create a temp counter to check a result is found (0 if not found)
+                int tempCounter = 0;
+                // check cusId is not empty (-1 is default value so must be set before being used - DB starts at id 10,000)
+                if (reference.cusId > 0)
+                {
+                    // adds parameter and executes stored procedure
+                    DB.AddParameter("@uId", reference.cusId);
+                    DB.Execute("tblCustomerFilterId");
+                    //checks for db output
+                    if (DB.Count == 1)
+                    {
+                        // sets all attributes to retrieved database variables
+                        aCustomer.cusId = Convert.ToInt32(DB.DataTable.Rows[0]["u_id"]);
+                        aCustomer.cusName = Convert.ToString(DB.DataTable.Rows[0]["u_name"]);
+                        aCustomer.cusEmail = Convert.ToString(DB.DataTable.Rows[0]["u_email"]);
+                        aCustomer.cusPassword = Convert.ToString(DB.DataTable.Rows[0]["u_password"]);
+                        aCustomer.cusDateRegister = Convert.ToDateTime(DB.DataTable.Rows[0]["u_creation_date"]);
+                        aCustomer.cusAccountStatus = Convert.ToBoolean(DB.DataTable.Rows[0]["u_status"]);
+                        // increment counter if row is found
+                        tempCounter++;
+                    }
+                }
+                // check cusName is not empty (default cusName = "")
+                if (reference.cusName != "")
+                {
+                    // adds parameter and executes stored procedure
+                    DB.AddParameter("@uName", reference.cusName);
+                    DB.Execute("tblCustomerFilterId");
+                    // checks for db output
+                    if (DB.Count == 1)
+                    {
+                        // sets all attributes to retrieved database variables
+                        aCustomer.cusId = Convert.ToInt32(DB.DataTable.Rows[0]["u_id"]);
+                        aCustomer.cusName = Convert.ToString(DB.DataTable.Rows[0]["u_name"]);
+                        aCustomer.cusEmail = Convert.ToString(DB.DataTable.Rows[0]["u_email"]);
+                        aCustomer.cusPassword = Convert.ToString(DB.DataTable.Rows[0]["u_password"]);
+                        aCustomer.cusDateRegister = Convert.ToDateTime(DB.DataTable.Rows[0]["u_creation_date"]);
+                        aCustomer.cusAccountStatus = Convert.ToBoolean(DB.DataTable.Rows[0]["u_status"]);
+                        // increment counter if row is found
+                        tempCounter++;
+                    }
+                }
+                // checks cusEmail is not empty (default cusEmail = "")
+                if (reference.cusEmail != "")
+                {
+                    // adds parameter and executes stored procedure
+                    DB.AddParameter("@uEmail", reference.cusEmail);
+                    DB.Execute("tblCustomerFilterEmail");
+                    // checks for db output
+                    if (DB.Count == 1)
+                    {
+                        // sets all attributes to retrieved database variables
+                        aCustomer.cusId = Convert.ToInt32(DB.DataTable.Rows[0]["u_id"]);
+                        aCustomer.cusName = Convert.ToString(DB.DataTable.Rows[0]["u_name"]);
+                        aCustomer.cusEmail = Convert.ToString(DB.DataTable.Rows[0]["u_email"]);
+                        aCustomer.cusPassword = Convert.ToString(DB.DataTable.Rows[0]["u_password"]);
+                        aCustomer.cusDateRegister = Convert.ToDateTime(DB.DataTable.Rows[0]["u_creation_date"]);
+                        aCustomer.cusAccountStatus = Convert.ToBoolean(DB.DataTable.Rows[0]["u_status"]);
+                        // increment counter if row is found
+                        tempCounter++;
+                    }
+                }
+                // Check the counter to make sure that at least 1 match was found and returns new populated clsCustomer class
+                if (tempCounter > 0)
+                {
+                    return aCustomer;
+                }
+                // if tempCounter is empty return a dummy clsCustomer class with cusId = -1
+                else
+                {
+                    clsCustomer noCustomer = new clsCustomer();
+                    noCustomer.cusId = -1;
+                    return noCustomer;
+                }
+            }
+            // if cusId, cusName and cusEmail are not set then return a dummy clsCustomer class with cusId = -1
+            else
+            {
+                clsCustomer noCustomer = new clsCustomer();
+                noCustomer.cusId = -1;
+                return noCustomer;
+            }
         }
 
         /// <summary>

@@ -61,7 +61,8 @@ public partial class addUser : System.Web.UI.Page
             errorMsgDiv.Controls.Add(errorDiv);
         }
     }
-
+    
+    // name = not empty, 6-32 characters, only letters and space.
     protected void inputSubmit_Click(object sender, EventArgs e)
     {
         if (inputName.Text != "" && (inputName.Text.Length < 32 || inputName.Text.Length > 6) && inputEmail.Text != "" && (inputEmail.Text.Length < 64 ||
