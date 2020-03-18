@@ -62,19 +62,21 @@ namespace BestGames_Testing
         }
 
         [TestMethod]
-        public void TestSetCustomer()
-        {
-            clsCustomer aCustomer = new clsCustomer();
-            aCustomer.setCustomer("Lewis Harris", "p2419279@my365.dmu.ac.uk", "Toor2345");
-            Assert.IsNotNull(aCustomer);
-        }
-
-        [TestMethod]
         public void TestGetCustomer()
         {
             clsCustomer aCustomer = new clsCustomer();
             aCustomer.getCustomer(5);
             Assert.IsNotNull(aCustomer);
+        }
+
+        [TestMethod]
+        public void TestFilterCustomer()
+        {
+            clsCustomer aCustomer = new clsCustomer();
+            aCustomer.cusId = 10007;
+            clsCustomer testCustomer = new clsCustomer().filterCustomer(aCustomer);
+            Assert.AreEqual(testCustomer.cusId, 10007);
+            Assert.AreEqual(testCustomer.cusName, "Lewis");
         }
     }
 }
