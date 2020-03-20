@@ -78,5 +78,13 @@ namespace BestGames_Testing
             Assert.AreEqual(testCustomer.cusId, 10007);
             Assert.AreEqual(testCustomer.cusName, "Lewis");
         }
+
+        [TestMethod]
+        public void testOnlyContains()
+        {
+            clsCustomer aCustomer = new clsCustomer();
+            Assert.AreEqual(aCustomer.onlyContains("abacadaba", "abcd"), true);
+            Assert.AreEqual(aCustomer.onlyContains(";DROP *;execute;", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"), false);
+        }
     }
 }

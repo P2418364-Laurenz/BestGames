@@ -123,6 +123,23 @@ namespace BestGames_Libary
         }
 
         /// <summary>
+        /// Checks if the class attribute information is valid - contains the correct punctuation, correct character count, and doesn't contain malicious code.
+        /// </summary>
+        /// <returns>Boolean true = information is okay, false = information needs changing, check the information.</returns>
+        public Boolean validateCustomer()
+        {
+            // checks if cusName has correct length and only contains a-Z & 0-9.
+            if (this.cusName.Length > 6 && this.cusName.Length < 32 && !onlyContains(this.cusName, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// TODO!!! Returns all class attributes from the SQL database in clsCustomer class from id argument
         /// </summary>
         /// <param name="id">integer id</param>
@@ -169,6 +186,31 @@ namespace BestGames_Libary
                     }
                     this.cusPassword = sb.ToString();
                 }
+            }
+        }
+
+        /// <summary>
+        /// A custom function for finding if the query string contains (or doesn't contain) the accepted characters.
+        /// </summary>
+        /// <param name="query">The input or query string</param>
+        /// <param name="accepted">All the accepted characters</param>
+        /// <returns>Returns true if only contains the accepted characters, false if any other characters are detected.</returns>
+        public Boolean onlyContains(String query, String accepted)
+        {
+            int counter = 0;
+            for (int i = 0; i < query.Length; i++)
+            {
+                if (accepted.Contains(query[i].ToString()))
+                {
+                    counter++;
+                }
+            }
+            if (counter==query.Length)
+            {
+                return true;
+            } else
+            {
+                return false;
             }
         }
 
