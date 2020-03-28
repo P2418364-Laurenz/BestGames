@@ -20,9 +20,12 @@ public partial class OrderDelete : System.Web.UI.Page
         clsOrderCollection OrderBook = new clsOrderCollection();
         OrderBook.ThisOrder.Find(o_id);
         OrderBook.Delete();
-        Response.Redirect("OrderList.aspx");
+        Response.Redirect("Default.aspx");
 
+    }
 
-
+    protected void btnNo_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Default.aspx");
     }
 }

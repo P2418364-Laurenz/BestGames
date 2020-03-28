@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BestGames_Libary;
 
 
 namespace BestGames_Libary
@@ -9,10 +10,10 @@ namespace BestGames_Libary
     public class clsOrder
     {
 
-        private int mOrder_ID;
+        private Int32 mOrder_ID;
         private DateTime mDateAdded;
-        private bool mStatus;
-        private string mInfo;
+        private Boolean mStatus;
+        private string mInformation;
 
 
         public bool o_status
@@ -59,12 +60,12 @@ namespace BestGames_Libary
         {
             get
             {
-                return mInfo;
+                return mInformation;
             }
 
             set
             {
-                mInfo = value;
+                mInformation = value;
             }
         }
 
@@ -82,7 +83,7 @@ namespace BestGames_Libary
                 mOrder_ID = Convert.ToInt32(DB.DataTable.Rows[0]["o_id"]);
                 mDateAdded = Convert.ToDateTime(DB.DataTable.Rows[0]["o_date"]);
                 mStatus = Convert.ToBoolean(DB.DataTable.Rows[0]["o_status"]);
-                mInfo = Convert.ToString(DB.DataTable.Rows[0]["o_information"]);
+                mInformation = Convert.ToString(DB.DataTable.Rows[0]["o_information"]);
 
                 return true;
             }
@@ -95,19 +96,22 @@ namespace BestGames_Libary
         }
 
 
-        public void Delete(Int32 o_id)
-        {
-            clsDataConnection DB = new clsDataConnection();
+        //public void Delete(Int32 o_id)
+        //{
+        //    clsDataConnection DB = new clsDataConnection();
 
-            DB.AddParameter("@o_id", o_id);
-            DB.Execute("sproc_tblOrder_Delete");
+        //    DB.AddParameter("@o_id", o_id);
+        //    DB.Execute("sproc_tblOrder_Delete");
+        //}
+
+
+        public string Valid(string o_information, DateTime o_date)
+        {
+            return "";
         }
 
 
-       
-
-
-        public string Valid(string o_information, string o_date)
+            public string Valid(string o_information, string o_date)
         {
             String Error = "";
             DateTime DateTemp;

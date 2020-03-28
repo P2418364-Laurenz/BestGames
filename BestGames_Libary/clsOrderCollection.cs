@@ -16,21 +16,16 @@ namespace BestGames_Libary
         public clsOrderCollection()
         {
 
+
             clsDataConnection DB = new clsDataConnection();
 
             DB.Execute("sproc_tblOrder_SelectAll");
-
             PopulateArray(DB);
 
+
+           
         }
 
-        public void ReportByOrderInformation(string o_information)
-        {
-            clsDataConnection DB = new clsDataConnection();
-            DB.AddParameter("@o_information", o_information);
-            DB.Execute("sproc_tblOrder_FilterByOrderInformation");
-            PopulateArray(DB);
-        }
 
         void PopulateArray(clsDataConnection DB)
         {
@@ -39,14 +34,17 @@ namespace BestGames_Libary
             RecordCount = DB.Count;
             mOrderList = new List<clsOrder>();
 
-            while(Index < RecordCount)
+            while (Index < RecordCount)
             {
                 clsOrder AnOrder = new clsOrder();
 
+
+                AnOrder.o_id = Convert.ToInt32(DB.DataTable.Rows[0]["o_id"]);
+                AnOrder.o_date = Convert.ToDateTime(DB.DataTable.Rows[Index]["o_date"]);
                 AnOrder.o_status = Convert.ToBoolean(DB.DataTable.Rows[Index]["o_status"]);
                 AnOrder.o_information = Convert.ToString(DB.DataTable.Rows[Index]["o_information"]);
-                AnOrder.o_date = Convert.ToDateTime(DB.DataTable.Rows[Index]["o_date"]);
-                AnOrder.o_id = Convert.ToInt32(DB.DataTable.Rows[0]["o_id"]);
+
+
 
                 mOrderList.Add(AnOrder);
 
@@ -55,38 +53,6 @@ namespace BestGames_Libary
 
         }
 
-        public void Update()
-        {
-            clsDataConnection DB = new clsDataConnection();
-            DB.AddParameter("@o_id", mThisOrder.o_id);
-            DB.AddParameter("@o_information", mThisOrder.o_information);
-            DB.AddParameter("@o_date", mThisOrder.o_date);
-            DB.AddParameter("@o_status", mThisOrder.o_status);
-
-            DB.Execute("sproc_tblOrder_Update");
-
-        }
-
-        public void Delete()
-        {
-
-             clsDataConnection DB = new clsDataConnection();
-             DB.AddParameter("@o_id", mThisOrder.o_id);
-             DB.Execute("sproc_tblOrder_Delete");
-
-        }
-
-        public int Add()
-        {
-            clsDataConnection DB = new clsDataConnection();
-            DB.AddParameter("@o_information", mThisOrder.o_information);
-            DB.AddParameter("@o_date", mThisOrder.o_date);
-            DB.AddParameter("@o_status", mThisOrder.o_status);
-
-            return DB.Execute("sproc_tblOrder_Insert");
-
-
-        }
 
         public List<clsOrder> OrderList
         {
@@ -111,7 +77,7 @@ namespace BestGames_Libary
             }
             set
             {
-
+                
             }
 
 
@@ -129,6 +95,47 @@ namespace BestGames_Libary
                 mThisOrder = value;
             }
 
+        }
+
+
+        public int Add()
+        {
+            clsDataConnection DB = new clsDataConnection();
+            
+            DB.AddParameter("@o_date", mThisOrder.o_date);
+            DB.AddParameter("@o_status", mThisOrder.o_status);
+            DB.AddParameter("@o_information", mThisOrder.o_information);
+
+            return DB.Execute("sproc_tblOrder_Insert");
+        }
+
+        public void Delete()
+        {
+            clsDataConnection DB = new clsDataConnection();
+            DB.AddParameter("@o_id", mThisOrder.o_id);
+            DB.Execute("sproc_tblOrder_Delete");
+        }
+
+
+
+        public void ReportByOrderInformation(string o_information)
+        {
+            clsDataConnection DB = new clsDataConnection();
+            DB.AddParameter("@o_information", o_information);
+            DB.Execute("sproc_tblOrder_FilterByOrderInformation");
+            PopulateArray(DB);
+        }
+
+        
+
+        public void Update()
+        {
+            clsDataConnection DB = new clsDataConnection();
+            DB.AddParameter("@o_id", mThisOrder.o_id);
+            DB.AddParameter("@o_date", mThisOrder.o_date);
+            DB.AddParameter("@o_status", mThisOrder.o_status);
+            DB.AddParameter("@o_information", mThisOrder.o_information);
+            DB.Execute("sproc_tblOrder_Update");
         }
 
     }

@@ -9,124 +9,119 @@ using BestGames_Libary;
 public partial class _Default : System.Web.UI.Page
 {
 
-    Int32 o_id;
-
     protected void Page_Load(object sender, EventArgs e)
     {
-
-        o_id = Convert.ToInt32(Session["o_id"]);
-        if(IsPostBack == false)
+        if (IsPostBack == false)
         {
-            if(o_id != -1)
-            {
-                DisplayOrder();
-            }
+            DisplayOrders();
         }
     }
 
 
 
 
-    void DisplayOrder()
+    void DisplayOrders()
     {
-        clsOrderCollection OrderBook = new clsOrderCollection();
-        OrderBook.ThisOrder.Find(o_id);
-
-        txtID.Text = OrderBook.ThisOrder.o_id.ToString();
-        txtInfo.Text = OrderBook.ThisOrder.o_information;
-        txtDate.Text = OrderBook.ThisOrder.o_date.ToString();
-        chkActive.Checked = OrderBook.ThisOrder.o_status;
-
+        BestGames_Libary.clsOrderCollection Orders = new BestGames_Libary.clsOrderCollection();
+        lstOrderList.DataSource = Orders.OrderList;
+        lstOrderList.DataValueField = "o_id";
+        lstOrderList.DataTextField = "o_information";
+        lstOrderList.DataBind();
+        
 
     }
 
-
-
-
-
-    protected void btnEnter_Click(object sender, EventArgs e)
+    protected void btnAdd_Click(object sender, EventArgs e)
     {
-        //create a new instance of clsOrder
-        clsOrder AnOrder = new clsOrder();
+        Session["o_id"] = -1;
 
-        string o_date = txtDate.Text;
-        string o_info = txtInfo.Text;
-
-
-
-
-        string Error = "";
-        Error = AnOrder.Valid(o_info, o_date);
-        if (Error == "")
-        {
-            AnOrder.o_information = o_info;
-            AnOrder.o_date = Convert.ToDateTime(txtDate.Text);
-            //store the order in the session object
-            Session["Order"] = AnOrder;
-            //redirect to the viewer page
-            Response.Redirect("OrderView.aspx");
-        }
-        else
-        {
-            lbl.Text = Error;
-        }
+        Response.Redirect("AnOrder.aspx");
     }
 
-    protected void btnFind_Click(object sender, EventArgs e)
+    protected void btnDelete_Click(object sender, EventArgs e)
     {
-        clsOrder AnOrder = new clsOrder();
-
         Int32 o_id;
 
-        Boolean Found = false;
-
-        o_id = Convert.ToInt32(txtID.Text);
-
-        Found = AnOrder.Find(o_id);
-
-        if (Found == true)
+        if (lstOrderList.SelectedIndex != -1)
         {
-            txtInfo.Text = AnOrder.o_information;
-            txtDate.Text = AnOrder.o_date.ToString();
-        }
-    }
-
-    protected void btnOk_Click(object sender, EventArgs e)
-    {
-
-        clsOrder AnOrder = new clsOrder();
-
-        string o_date = txtDate.Text;
-        string o_info = txtInfo.Text;
-
-        string Error = "";
-        Error = AnOrder.Valid(o_info, o_date);
-        if (Error == "")
-        {
-            AnOrder.o_information = o_info;
-            AnOrder.o_date = Convert.ToDateTime(txtDate.Text);
-            AnOrder.o_status = chkActive.Checked;
-            
-            clsOrderCollection OrderList = new clsOrderCollection();
-
-            if(o_id == -1)
-            {
-                OrderList.ThisOrder = AnOrder;
-                OrderList.Add();
-            }
-            else
-            {
-                OrderList.ThisOrder.Find(o_id);
-                OrderList.ThisOrder = AnOrder;
-                OrderList.Update();
-            }
-
-
-            Response.Redirect("OrderList.aspx");
+            o_id = Convert.ToInt32(lstOrderList.SelectedValue);
+            Session["o_id"] = o_id;
+            Response.Redirect("OrderDelete.aspx");
         }
         else
         {
-            lbl.Text = Error;
+            lblError.Text = "Please select a record to delete from the list";
+        }
+
+    }
+
+    protected void btnEdit_Click(object sender, EventArgs e)
+    {
+        Int32 o_id;
+
+        if (lstOrderList.SelectedIndex != -1)
+        {
+            o_id = Convert.ToInt32(lstOrderList.SelectedValue);
+            Session["o_id"] = o_id;
+
+            //lblError.Text = o_id.ToString();
+
+            Response.Redirect("AnOrder.aspx");
+        }
+        else
+        {
+            lblError.Text = "Please select a record to delete from the list";
+        }
+    }
+
+    protected void btnApply_Click(object sender, EventArgs e)
+    {
+        clsOrderCollection Orders = new clsOrderCollection();
+
+        Orders.ReportByOrderInformation(txtFilter.Text);
+
+        lstOrderList.DataSource = Orders.OrderList;
+
+        lstOrderList.DataValueField = "o_id";
+        lstOrderList.DataTextField = "o_information";
+        lstOrderList.DataBind();
+
+    }
+
+    protected void btnClear_Click(object sender, EventArgs e)
+    {
+        clsOrderCollection Orders = new clsOrderCollection();
+
+
+        Orders.ReportByOrderInformation("");
+        txtFilter.Text = "";
+
+        lstOrderList.DataSource = Orders.OrderList;
+
+        lstOrderList.DataValueField = "o_id";
+        lstOrderList.DataTextField = "o_information";
+        lstOrderList.DataBind();
+    }
+
+    protected void lstOrderList_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        Int32 oo;
+
+
+
+        if(lstOrderList.SelectedIndex != -1)
+        {
+            oo = Convert.ToInt32(lstOrderList.SelectedValue);
+
+            Session["oo"] = oo;
+
+            lblError.Text = oo.ToString();
+
         }
     }
 }

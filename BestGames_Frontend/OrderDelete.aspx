@@ -12,7 +12,7 @@
             Are you sure you want to delete this record?</div>
         <p>
             <asp:Button ID="btnYes" runat="server" OnClick="btnYes_Click" style="z-index: 1; left: 20px; top: 51px; position: absolute" Text="Yes" />
-            <asp:Button ID="btnNo" runat="server" style="z-index: 1; left: 98px; top: 51px; position: absolute" Text="No" />
+            <asp:Button ID="btnNo" runat="server" style="z-index: 1; left: 98px; top: 51px; position: absolute" Text="No" OnClick="btnNo_Click" />
         </p>
     </form>
 </body>
