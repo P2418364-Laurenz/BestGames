@@ -6,7 +6,7 @@ namespace BestGames_Testing
 {
     
     [TestClass]
-    public class tstCustomer
+    public class tstOrder
     {
         [TestMethod]
         public void InstanceOK()
