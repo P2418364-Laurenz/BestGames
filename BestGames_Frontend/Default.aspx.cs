@@ -112,8 +112,6 @@ public partial class _Default : System.Web.UI.Page
     {
         Int32 oo;
 
-
-
         if(lstOrderList.SelectedIndex != -1)
         {
             oo = Convert.ToInt32(lstOrderList.SelectedValue);
