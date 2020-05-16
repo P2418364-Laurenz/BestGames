@@ -93,7 +93,9 @@ namespace BestGames_Testing
             TestItem.o_id = 2;
             TestItem.o_date = DateTime.Now.Date;
             TestItem.o_status = true;
-            TestItem.o_information = "dfwef";
+            TestItem.o_information = "Add";
+            TestItem.cus_id = 1;
+            TestItem.s_id = 1;
 
             AllOrders.ThisOrder = TestItem;
 
@@ -119,7 +121,8 @@ namespace BestGames_Testing
             TestItem.o_date = DateTime.Now.Date;
             TestItem.o_status = true;
             TestItem.o_information = "dfwef";
-
+            TestItem.cus_id = 1;
+            TestItem.s_id = 1;
 
             AllOrders.ThisOrder = TestItem;
 
@@ -147,7 +150,9 @@ namespace BestGames_Testing
             
             TestItem.o_date = DateTime.Now.Date;
             TestItem.o_status = true;
-            TestItem.o_information = "dfwef";
+            TestItem.o_information = "Update";
+            TestItem.cus_id = 1;
+            TestItem.s_id = 1;
 
             AllOrders.ThisOrder = TestItem;
 
@@ -158,7 +163,9 @@ namespace BestGames_Testing
             
             TestItem.o_date = DateTime.Now.Date;
             TestItem.o_status = true;
-            TestItem.o_information = "dfwef";
+            TestItem.o_information = "Update";
+            TestItem.cus_id = 1;
+            TestItem.s_id = 1;
 
             AllOrders.ThisOrder = TestItem;
 
@@ -201,15 +208,15 @@ namespace BestGames_Testing
             clsOrderCollection FilteredOrders = new clsOrderCollection();
             Boolean OK = true;
 
-            FilteredOrders.ReportByOrderInformation("abc");
+            FilteredOrders.ReportByOrderInformation("Test Data");
 
             if (FilteredOrders.Count == 2)
             {
-                if (FilteredOrders.OrderList[0].o_id != 50)
+                if (FilteredOrders.OrderList[0].o_id != 168)
                 {
                     OK = false;
                 }
-                if (FilteredOrders.OrderList[0].o_id != 50)
+                if (FilteredOrders.OrderList[1].o_id != 169)
                 {
                     OK = false;
                 }

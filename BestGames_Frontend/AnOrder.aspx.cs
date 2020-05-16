@@ -71,20 +71,32 @@ public partial class AnOrder : System.Web.UI.Page
 
     protected void btnFind_Click(object sender, EventArgs e)
     {
-        clsOrder AnOrder = new clsOrder();
+        txtDate.Text = "";
+        txtInfo.Text = "";
 
-        Int32 o_id;
 
-        Boolean Found = false;
-
-        o_id = Convert.ToInt32(txtID.Text);
-
-        Found = AnOrder.Find(o_id);
-
-        if (Found == true)
+        if (txtID.Text == "")
         {
-            txtInfo.Text = AnOrder.o_information;
-            txtDate.Text = AnOrder.o_date.ToString();
+            lbl.Text = "Please enter the Order ID to perform the Find method";
+        }
+        else
+        {
+            lbl.Text = "";
+            clsOrder AnOrder = new clsOrder();
+
+            Int32 o_id;
+
+            Boolean Found = false;
+
+            o_id = Convert.ToInt32(txtID.Text);
+
+            Found = AnOrder.Find(o_id);
+
+            if (Found == true)
+            {
+                txtInfo.Text = AnOrder.o_information;
+                txtDate.Text = AnOrder.o_date.ToString();
+            }
         }
     }
 
@@ -92,6 +104,7 @@ public partial class AnOrder : System.Web.UI.Page
     {
 
         clsOrder AnOrder = new clsOrder();
+
 
         string o_date = txtDate.Text;
 
@@ -105,6 +118,8 @@ public partial class AnOrder : System.Web.UI.Page
             AnOrder.o_information = o_information;
             AnOrder.o_date = Convert.ToDateTime(o_date);
             AnOrder.o_status = chkActive.Checked;
+            AnOrder.cus_id = 1;
+            AnOrder.s_id = 1;
 
             clsOrderCollection OrderList = new clsOrderCollection();
 
@@ -120,7 +135,7 @@ public partial class AnOrder : System.Web.UI.Page
                 OrderList.Update();
             }
 
-            Response.Redirect("Default.aspx");
+            Response.Redirect("OrderList.aspx");
         }
         else
         {
@@ -134,6 +149,49 @@ public partial class AnOrder : System.Web.UI.Page
 
     protected void btnCancel_Click(object sender, EventArgs e)
     {
-        Response.Redirect("Default.aspx");
+        Response.Redirect("OrderList.aspx");
+    }
+
+    protected void btnOkay_Click(object sender, EventArgs e)
+    {
+        clsOrder AnOrder = new clsOrder();
+
+
+        string o_date = txtDate.Text;
+
+        string o_information = txtInfo.Text;
+
+        string Error = "";
+        Error = AnOrder.Valid(o_information, o_date);
+        if (Error == "")
+        {
+            AnOrder.o_id = o_id;
+            AnOrder.o_information = o_information;
+            AnOrder.o_date = Convert.ToDateTime(o_date);
+            AnOrder.o_status = chkActive.Checked;
+            AnOrder.cus_id = 1;
+            AnOrder.s_id = 1;
+
+            clsOrderCollection OrderList = new clsOrderCollection();
+
+            if (o_id == -1)
+            {
+                OrderList.ThisOrder = AnOrder;
+                OrderList.Add();
+            }
+            else
+            {
+                OrderList.ThisOrder.Find(o_id);
+                OrderList.ThisOrder = AnOrder;
+                OrderList.Update();
+            }
+
+            Response.Redirect("OrderList.aspx");
+        }
+        else
+        {
+            lbl.Text = Error;
+        }
+
     }
 }

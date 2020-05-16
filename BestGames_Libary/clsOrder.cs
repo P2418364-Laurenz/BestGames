@@ -14,6 +14,9 @@ namespace BestGames_Libary
         private DateTime mDateAdded;
         private Boolean mStatus;
         private string mInformation;
+        private string mFull_info;
+        private Int32 mCus_id;
+        private Int32 mS_id;
 
 
         public bool o_status
@@ -69,6 +72,45 @@ namespace BestGames_Libary
             }
         }
 
+        public string o_full_info
+        {
+            get
+            {
+                return mFull_info;
+            }
+            set
+            {
+                mFull_info = value;
+            }
+        }
+
+
+        public int cus_id
+        {
+            get
+            {
+                return mCus_id;
+            }
+            set
+            {
+                mCus_id = value;
+            }
+        }
+
+
+        public int s_id
+        {
+            get
+            {
+                return mS_id;
+            }
+            set
+            {
+                mS_id = value;
+            }
+        }
+
+
         public bool Find(int o_id)
         {
 
@@ -76,7 +118,7 @@ namespace BestGames_Libary
 
             DB.AddParameter("@o_id", o_id);
 
-            DB.Execute("sproc_tblOrder_FilterByOrderNo");
+            DB.Execute("sproc_tblOrder_FindByOrderNo");
 
             if (DB.Count == 1)
             {
@@ -84,6 +126,9 @@ namespace BestGames_Libary
                 mDateAdded = Convert.ToDateTime(DB.DataTable.Rows[0]["o_date"]);
                 mStatus = Convert.ToBoolean(DB.DataTable.Rows[0]["o_status"]);
                 mInformation = Convert.ToString(DB.DataTable.Rows[0]["o_information"]);
+                mFull_info = Convert.ToString(DB.DataTable.Rows[0]["o_full_info"]);
+                mCus_id = Convert.ToInt32(DB.DataTable.Rows[0]["cus_id"]);
+                //mS_id = Convert.ToInt32(DB.DataTable.Rows[0]["s_id"]);
 
                 return true;
             }
@@ -94,6 +139,29 @@ namespace BestGames_Libary
             }
 
         }
+
+
+        public bool FindTop1()
+        {
+
+            clsDataConnection DB = new clsDataConnection();
+
+            DB.Execute("sproc_tblOrder_SelectTop1");
+
+            if (DB.Count == 1)
+            {
+                mOrder_ID = Convert.ToInt32(DB.DataTable.Rows[0]["o_id"]);
+
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
+
+        }
+
 
 
         //public void Delete(Int32 o_id)
@@ -110,8 +178,24 @@ namespace BestGames_Libary
             return "";
         }
 
+        public string Valid(string o_information)
+        {
+            String Error = "";
 
-            public string Valid(string o_information, string o_date)
+            if(o_information.Length == 0)
+            {
+                Error = Error + "The Order Information may not be black: ";
+            }
+
+            if(o_information.Length > 50)
+            {
+                Error = Error + "The Order Information must be less than 50 characters: ";
+            }
+
+            return Error;
+        }
+
+        public string Valid(string o_information, string o_date)
         {
             String Error = "";
             DateTime DateTemp;

@@ -156,7 +156,7 @@ namespace BestGames_Testing
             Boolean OK = true;
             Int32 o_id = 68;
             Found = AnOrder.Find(o_id);
-            if (AnOrder.o_information != "changer")
+            if (AnOrder.o_information != "Order Successful 2")
             {
                 OK = false;
             }
@@ -177,7 +177,6 @@ namespace BestGames_Testing
             String Error = "";
             Error = AnOrder.Valid(o_information, o_date);
             Assert.AreEqual(Error, "");
-
         }
 
 

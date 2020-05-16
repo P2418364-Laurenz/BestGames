@@ -47,7 +47,7 @@ public partial class OrderList : System.Web.UI.Page
         }
         else
         {
-            lblError.Text = "Please select a record to delete from the list";
+            lblError.Text = "Please select a record to Edit from the list";
         }
     }
 
@@ -63,7 +63,7 @@ public partial class OrderList : System.Web.UI.Page
         }
         else
         {
-            lblError.Text = "Please select a record to delete from the list";
+            lblError.Text = "Please select a record to Delete from the list";
         }
 
     }
@@ -94,5 +94,10 @@ public partial class OrderList : System.Web.UI.Page
         lstOrderList.DataValueField = "o_id";
         lstOrderList.DataTextField = "o_information";
         lstOrderList.DataBind();
+    }
+
+    protected void lstOrderList_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
     }
 }
