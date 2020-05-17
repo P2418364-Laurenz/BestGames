@@ -135,7 +135,49 @@ namespace BestGames_Libary
         /// <returns>Boolean true = information is okay, false = information needs changing, check the information.</returns>
         public string Valid(string cusName, string cusEmail, string cusPassword)
         {
-            return "";
+            //create an error string
+            String error = "";
+            //if cusName is less than min
+            if (cusName.Length < 1)
+            {
+                error += "Customer name too short : "; //error to display
+            }
+            //if name is more than 256 characters
+            if (cusName.Length>256)
+            {
+                error += "Customer name too long : "; //error to display
+            }
+            //if cusEmail is less than min
+            if (cusEmail.Length < 5)
+            {
+                error += "Customer email too short : "; //error to display
+            }
+            //if cusEmail is more than max
+            if (cusEmail.Length > 512)
+            {
+                error += "Customer email too long : ";//error to display
+            }
+            //if cusEmail doesn't contain @ or .
+            if (!cusEmail.Contains("@"))
+            {
+                error += "Customer email doesn't have an @ symbol (required)";//error
+            }
+            if (!cusEmail.Contains("."))
+            {
+                error += "Customer email doesn't have an .com (required)";//error
+            }
+            //if cusPass is less than min
+            if (cusPassword.Length < 6)
+            {
+                error += "Customer Password too short : "; //error to display
+            }
+            //if cusPass is more than max
+            if (cusPassword.Length > 64)
+            {
+                error += "Customer Password too long : "; //error to display
+            }
+            //return all concatenated errors in error String
+            return error;
         }
 
         /// <summary>

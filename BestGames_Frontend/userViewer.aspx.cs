@@ -12,7 +12,6 @@ public partial class userViewer : System.Web.UI.Page
     {
         clsCustomer aCustomer = new clsCustomer();
         aCustomer = (clsCustomer)Session["aCustomer"];
-        
         Response.Write(aCustomer.toString());
     }
 }

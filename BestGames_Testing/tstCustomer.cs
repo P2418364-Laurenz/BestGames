@@ -25,21 +25,9 @@ namespace BestGames_Testing
         }
 
         [TestMethod]
-        public void TestCusNameMin()
-        {
-            //create an instance of the class we want to create
-            clsCustomer aCustomer = new clsCustomer();
-            //string variable to store any error message
-            String error = "";
-            //create soem test data to pass to the method
-            string cusName = "";
-            //invoke method
-            error = aCustomer.Valid(cusName, tstEmail, tstPassword);
-        }
-
-        [TestMethod]
         public void TestClass()
         {
+            //create new class and assert not equal to null
             clsCustomer aCustomer = new clsCustomer();
             Assert.IsNotNull(aCustomer);
         }
@@ -47,6 +35,7 @@ namespace BestGames_Testing
         [TestMethod]
         public void TestCusId()
         {
+            //test Id property can assign
             clsCustomer aCustomer = new clsCustomer();
             aCustomer.cusId = 50;
             Assert.IsNotNull(aCustomer.cusId);
@@ -55,6 +44,7 @@ namespace BestGames_Testing
         [TestMethod]
         public void TestCusName()
         {
+            //test customer name property can assign
             clsCustomer aCustomer = new clsCustomer();
             aCustomer.cusName = "Test User";
             Assert.IsNotNull(aCustomer.cusName);
@@ -63,6 +53,7 @@ namespace BestGames_Testing
         [TestMethod]
         public void TestCusEmail()
         {
+            //test email property can assign
             clsCustomer aCustomer = new clsCustomer();
             aCustomer.cusEmail = "testing@test.net";
             Assert.IsNotNull(aCustomer.cusEmail);
@@ -86,6 +77,7 @@ namespace BestGames_Testing
         [TestMethod]
         public void TestCusAccountStatus()
         {
+            //test account status property can assign
             clsCustomer aCustomer = new clsCustomer();
             aCustomer.cusAccountStatus = true;
             Assert.IsNotNull(aCustomer.cusAccountStatus);
@@ -97,15 +89,6 @@ namespace BestGames_Testing
             clsCustomer aCustomer = new clsCustomer();
             aCustomer.getCustomer(5);
             Assert.IsNotNull(aCustomer);
-        }
-
-        [TestMethod]
-        public void TestFilterCustomer()
-        {
-            clsCustomer aCustomer = new clsCustomer();
-            aCustomer.cusId = 10007;
-            clsCustomer testCustomer = new clsCustomer().filterCustomer(aCustomer);
-            Assert.AreEqual(testCustomer.cusId, 10007);
         }
 
         [TestMethod]
@@ -144,11 +127,17 @@ namespace BestGames_Testing
         [TestMethod]
         public void customerCollectionCount()
         {
+            //create new instance of class
             clsCustomerCollection allCustomers = new clsCustomerCollection();
+            //clear class (because it is generated with the SQL db entries 
+            //in constructor as shown in Lab 23
+            allCustomers.clear();
+            //make new test customer without properties (it doesn't need them to show count works)
             clsCustomer tstCustomer1 = new clsCustomer();
-            allCustomers.CustomerList.Add(tstCustomer1);
-            Int32 count = 2;
-            Assert.AreEqual(allCustomers.Count, count);
+            //add tst customer
+            allCustomers.add(tstCustomer1);
+            //compare contents of collection list count to actual count (1)
+            Assert.AreEqual(allCustomers.Count, 1);
         }
 
         [TestMethod]
@@ -167,18 +156,42 @@ namespace BestGames_Testing
         }
 
         [TestMethod]
+        public void testClear()
+        {
+            //create new customer collection
+            clsCustomerCollection collection = new clsCustomerCollection();
+            //make new test customer without properties (it doesn't need them to show clear works)
+            clsCustomer tstCustomer1 = new clsCustomer();
+            //add tst customer
+            collection.add(tstCustomer1);
+            //clear collection
+            collection.clear();
+            //create new empty list to compare to
+            List<clsCustomer> emptyList = new List<clsCustomer>();
+            //compare
+            Assert.AreEqual(collection.Count, emptyList.Count);
+        }
+
+        [TestMethod]
         public void testAddCustomer()
         {
+            //create new customer collection
             clsCustomerCollection customerList = new clsCustomerCollection();
+            //clear collection
+            customerList.clear();
+            //add 2 test customers
             clsCustomer tstCustomer1 = new clsCustomer();
             tstCustomer1.cusName = "Tester1";
             clsCustomer tstCustomer2 = new clsCustomer();
             tstCustomer2.cusName = "Tester2";
+            //create new test list
             List<clsCustomer> tstList = new List<clsCustomer>();
+            //add 2 test customers to test list and customerList
             tstList.Add(tstCustomer1);
             tstList.Add(tstCustomer2);
             customerList.add(tstCustomer1);
             customerList.add(tstCustomer2);
+            //compare
             Assert.AreEqual(customerList.customerAtIndex(1), tstList[1]);
         }
 

@@ -79,5 +79,10 @@ namespace BestGames_Libary
         {
             return mCustomerList[i];
         }
+
+        public void clear()
+        {
+            mCustomerList.Clear();
+        }
     }
 }
