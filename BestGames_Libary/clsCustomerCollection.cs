@@ -4,8 +4,9 @@ namespace BestGames_Libary
 {
     public class clsCustomerCollection
     {
-        //private data member for the list
+        //private data member for the list and thisCustomer
         List<clsCustomer> mCustomerList = new List<clsCustomer>();
+        clsCustomer mThisCustomer = new clsCustomer();
 
         public clsCustomerCollection()
         {
@@ -57,34 +58,26 @@ namespace BestGames_Libary
                 //leave for later
             }
         }
-        public clsCustomer ThisCustomer { get; set; }
-        public List<clsCustomer> customerList = new List<clsCustomer>();
-        public Int32 Count;
-        public clsCustomer thisCustomer;
+
+        public clsCustomer ThisCustomer {
+            get
+            {
+                return mThisCustomer;
+            }
+            set
+            {
+                mThisCustomer = value;
+            }
+        }
 
         public void add(clsCustomer customer)
         {
-            this.customerList.Add(customer);
+            mCustomerList.Add(customer);
         }
 
-        public void clear()
+        public clsCustomer customerAtIndex(int i)
         {
-            this.customerList.Clear();
-        }
-
-        public void remove(clsCustomer customer)
-        {
-            this.customerList.Remove(customer);
-        }
-
-        public void removeLastItem()
-        {
-            this.customerList.RemoveAt(customerList.Count-1);
-        }
-
-        public clsCustomer customerAtIndex(Int32 i)
-        {
-            return this.customerList[i];
+            return mCustomerList[i];
         }
     }
 }

@@ -8,12 +8,40 @@ namespace BestGames_Testing
     [TestClass]
     public class tstCustomer
     {
+
+        string tstName = "Test Names";
+        string tstEmail = "test@name.com";
+        string tstPassword = "hidden";
+
         [TestMethod]
-        public String TestClass()
+        public void ValidMethodOK()
+        {
+            //create  an instance of the class we want to create
+            clsCustomer aCustomer = new clsCustomer();
+            //string var for errors and invoke method
+            String error = "";
+            error = aCustomer.Valid(tstName, tstEmail, tstPassword);
+            Assert.AreEqual(error, "");
+        }
+
+        [TestMethod]
+        public void TestCusNameMin()
+        {
+            //create an instance of the class we want to create
+            clsCustomer aCustomer = new clsCustomer();
+            //string variable to store any error message
+            String error = "";
+            //create soem test data to pass to the method
+            string cusName = "";
+            //invoke method
+            error = aCustomer.Valid(cusName, tstEmail, tstPassword);
+        }
+
+        [TestMethod]
+        public void TestClass()
         {
             clsCustomer aCustomer = new clsCustomer();
             Assert.IsNotNull(aCustomer);
-            return aCustomer.cusName;
         }
 
         [TestMethod]
@@ -109,8 +137,8 @@ namespace BestGames_Testing
             tstCustomer.cusAccountStatus = true;
             Assert.IsNotNull(allCustomers);
             TestList.Add(tstCustomer);
-            allCustomers.customerList = TestList;
-            Assert.AreEqual(allCustomers.customerList, TestList);
+            allCustomers.CustomerList = TestList;
+            Assert.AreEqual(allCustomers.CustomerList, TestList);
         }
 
         [TestMethod]
@@ -118,7 +146,7 @@ namespace BestGames_Testing
         {
             clsCustomerCollection allCustomers = new clsCustomerCollection();
             clsCustomer tstCustomer1 = new clsCustomer();
-            allCustomers.add(tstCustomer1);
+            allCustomers.CustomerList.Add(tstCustomer1);
             Int32 count = 2;
             Assert.AreEqual(allCustomers.Count, count);
         }
@@ -134,8 +162,8 @@ namespace BestGames_Testing
             tstCustomer.cusPassword = "hidden";
             tstCustomer.cusDateRegister = new DateTime();
             tstCustomer.cusAccountStatus = true;
-            customerList.thisCustomer = tstCustomer;
-            Assert.AreEqual(customerList.thisCustomer, tstCustomer);
+            customerList.ThisCustomer = tstCustomer;
+            Assert.AreEqual(customerList.ThisCustomer, tstCustomer);
         }
 
         [TestMethod]
