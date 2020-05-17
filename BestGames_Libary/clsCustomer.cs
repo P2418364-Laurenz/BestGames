@@ -5,13 +5,13 @@ namespace BestGames_Libary
 {
     public class clsCustomer
     {
-        public int cusId { get; set; }
+        public Int32 cusId { get; set; }
         public String cusName { get; set; }
         public String cusEmail { get; set; }
         public String cusPassword  { get; set; }
         public DateTime cusDateRegister = DateTime.Now;
         public bool cusAccountStatus = true;
-        
+
         /// <summary>
         /// Makes a new customer with class attributes. All attributes MUST BE present (so pre-execution checking must be in place).
         /// </summary>
@@ -29,6 +29,44 @@ namespace BestGames_Libary
             clsDataConnection tempDb = new clsDataConnection();
             tempDb.Execute("tblCustomerReturnAll");
             return tempDb.ToString();
+        }
+
+        public void Delete(int cusId)
+        {
+            //create data connection
+            clsDataConnection DB = new clsDataConnection();
+            //add parameters
+            DB.AddParameter("@customerId", cusId);
+            //execute deletion
+            DB.Execute("tblCustomerDelete");
+        }
+
+        public bool Find(int cusId)
+        {
+            //create new connection
+            clsDataConnection DB = new clsDataConnection();
+            //add parameters
+            DB.AddParameter("@uId", cusId);
+            //execute the stored procedure
+            DB.Execute("tblCustomerFilterId");
+            //check if record is found
+            if (DB.Count == 1)
+            {
+                //copy data from database to private data member
+                cusId = Convert.ToInt32(DB.DataTable.Rows[0]["u_id"]);
+                cusName = Convert.ToString(DB.DataTable.Rows[0]["u_name"]);
+                cusPassword = Convert.ToString(DB.DataTable.Rows[0]["u_password"]);
+                cusDateRegister = Convert.ToDateTime(DB.DataTable.Rows[0]["u_creation_date"]);
+                cusEmail = Convert.ToString(DB.DataTable.Rows[0]["u_email"]);
+                cusAccountStatus = Convert.ToBoolean(DB.DataTable.Rows[0]["u_status"]);
+                //return boolean to show it worked
+                return true;
+            }
+            else
+            {
+                //no record found, doesn't exist return false
+                return false;
+            }
         }
 
         /// <summary>
@@ -195,8 +233,11 @@ namespace BestGames_Libary
         /// <summary>Will delete the associated account from the SQL Database</summary>
         public void deleteAccount()
         {
+            //make connection
             clsDataConnection tempDb = new clsDataConnection();
+            //set the value of parameter to delete as this ID
             tempDb.AddParameter("@customerId", this.cusId);
+            //execute the stored procedure
             tempDb.Execute("tblCustomerDelete");
         }
 

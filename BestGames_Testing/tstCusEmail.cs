@@ -9,7 +9,8 @@ namespace BestGames_Testing
     {
         //good data
         string tstName = "Test Name";
-        string tstEmail = "test@name.com";
+        //tstEmail not used - use specific dynamic email for each test
+        //string tstEmail = "test@name.com";
         string tstPassword = "hidden";
 
         //min - 1

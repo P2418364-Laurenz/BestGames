@@ -10,7 +10,8 @@ namespace BestGames_Testing
         //good data
         string tstName = "Test Name";
         string tstEmail = "test@name.com";
-        string tstPassword = "hidden";
+        //tstPassword not used - use specific dynamic password for each test
+        //string tstPassword = "hidden";
 
         //min - 1
         [TestMethod]

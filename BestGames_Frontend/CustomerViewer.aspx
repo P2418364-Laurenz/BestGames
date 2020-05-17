@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="userViewer.aspx.cs" Inherits="userViewer" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CustomerViewer.aspx.cs" Inherits="CustomerViewer" %>
 
 <!DOCTYPE html>
 

@@ -8,7 +8,8 @@ namespace BestGames_Testing
     public class tstCusName
     {
         //good data
-        string tstName = "Test Name";
+        //tstName not used - use specific dynamic name for each test
+        //string tstName = "Test Name"; 
         string tstEmail = "test@name.com";
         string tstPassword = "hidden";
 

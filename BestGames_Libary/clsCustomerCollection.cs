@@ -62,17 +62,38 @@ namespace BestGames_Libary
         public clsCustomer ThisCustomer {
             get
             {
+                //get private field
                 return mThisCustomer;
             }
             set
             {
+                //set private field
                 mThisCustomer = value;
             }
         }
-
+        
+        /// <summary>
+        /// A local add method for adding a customer class to the list (for offline)
+        /// </summary>
+        /// <param name="customer">clsCustomer class</param>
         public void add(clsCustomer customer)
         {
             mCustomerList.Add(customer);
+        }
+
+        /// <summary>
+        /// Delete ThisCustomer's row from database
+        /// </summary>
+        /// <param name="id">ID to delete from the database (necessary)</param>
+        public void Delete(int idToDelete)
+        {
+            //deletes the record pointed to by ThisCustomer
+            //connect
+            clsDataConnection DB = new clsDataConnection();
+            //set the parameters for the stores procedure
+            DB.AddParameter("@customerId", idToDelete);
+            //execute the stored procedure
+            DB.Execute("tblCustomerDelete");
         }
 
         public clsCustomer customerAtIndex(int i)
@@ -83,6 +104,45 @@ namespace BestGames_Libary
         public void clear()
         {
             mCustomerList.Clear();
+        }
+
+        /// <summary>
+        /// Add to the SQL database after validation only
+        /// </summary>
+        /// <returns>Returns cusId</returns>
+        public int Add()
+        {
+            //add record to db - connect first
+            clsDataConnection DB = new clsDataConnection();
+            //set parameters for stored procedure
+            DB.AddParameter("@cusName", mThisCustomer.cusName);
+            DB.AddParameter("@cusEmail", mThisCustomer.cusEmail);
+            DB.AddParameter("@cusPassword", mThisCustomer.cusPassword);
+            //execute query and return the result (u_id/cusId)
+            return DB.Execute("tblCustomerInsert");
+        }
+
+        /// <summary>
+        /// Update ThisCustomer record to the input values. Cannot change read-only field date_created
+        /// </summary>
+        public void Update()
+        {
+            //update an exiting record based on the valies of ThisCustomer
+            //connect to db
+            clsDataConnection db = new clsDataConnection();
+            //set the paramteres for the stores procedure
+            db.AddParameter("@uId", ThisCustomer.cusId);
+            db.AddParameter("@uName", ThisCustomer.cusName);
+            db.AddParameter("@uEmail", ThisCustomer.cusEmail);
+            db.AddParameter("@uPassword", ThisCustomer.cusPassword);
+            db.AddParameter("@uStatus", ThisCustomer.cusAccountStatus);
+            //execute
+            db.Execute("tblCustomerUpdate");
+        }
+
+        public void ReportByEmail(string email)
+        {
+            //filters the records based on a full or partial email
         }
     }
 }
