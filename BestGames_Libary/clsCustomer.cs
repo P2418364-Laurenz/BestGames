@@ -133,17 +133,9 @@ namespace BestGames_Libary
         /// Checks if the class attribute information is valid - contains the correct punctuation, correct character count, and doesn't contain malicious code.
         /// </summary>
         /// <returns>Boolean true = information is okay, false = information needs changing, check the information.</returns>
-        public Boolean validateCustomer()
+        public string Valid(string cusName, string cusEmail, string cusPassword)
         {
-            // checks if cusName has correct length and only contains a-Z & 0-9.
-            if (this.cusName.Length > 6 && this.cusName.Length < 32 && !onlyContains(this.cusName, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return "";
         }
 
         /// <summary>

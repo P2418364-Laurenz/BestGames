@@ -59,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BestGames_Libary\BestGames_Libary.csproj">
-      <Project>{922AD5A5-AEBB-4C62-8876-353346D9EDE5}</Project>
+      <Project>{922ad5a5-aebb-4c62-8876-353346d9ede5}</Project>
       <Name>BestGames_Libary</Name>
     </ProjectReference>
   </ItemGroup>
