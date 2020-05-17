@@ -78,7 +78,13 @@ namespace BestGames_Testing
             aCustomer.cusId = 10007;
             clsCustomer testCustomer = new clsCustomer().filterCustomer(aCustomer);
             Assert.AreEqual(testCustomer.cusId, 10007);
-            Assert.AreEqual(testCustomer.cusName, "Lewis");
+        }
+
+        [TestMethod]
+        public void TestReturnAllFromDatabase()
+        {
+            clsCustomer aCustomer = new clsCustomer();
+            Assert.IsTrue(aCustomer.getAllRecords().Length > 0);
         }
 
         [TestMethod]
