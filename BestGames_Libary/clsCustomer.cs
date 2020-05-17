@@ -5,10 +5,10 @@ namespace BestGames_Libary
 {
     public class clsCustomer
     {
-        public int cusId = 0;
-        public String cusName = "";
-        public String cusEmail = "";
-        public String cusPassword = "";
+        public int cusId { get; set; }
+        public String cusName { get; set; }
+        public String cusEmail { get; set; }
+        public String cusPassword  { get; set; }
         public DateTime cusDateRegister = DateTime.Now;
         public bool cusAccountStatus = true;
         
@@ -22,6 +22,13 @@ namespace BestGames_Libary
             tempDb.AddParameter("@uEmail", this.cusEmail);
             tempDb.AddParameter("@uPassword", this.cusPassword);
             tempDb.Execute("tblCustomerAdd");
+        }
+
+        public String getAllRecords()
+        {
+            clsDataConnection tempDb = new clsDataConnection();
+            tempDb.Execute("tblCustomerReturnAll");
+            return tempDb.ToString();
         }
 
         /// <summary>
