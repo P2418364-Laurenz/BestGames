@@ -153,13 +153,13 @@ namespace BestGames_Testing
         public void ReportByPostCodeMethodOK()
         {
             //create an instance of the class containing unfilitered results
-            clsCustomerCollection collection = new clsCustomerCollection();
+            clsCustomerCollection data = new clsCustomerCollection();
             //create and instance of the filtered data
-            clsCustomerCollection FilteredData = new clsCustomerCollection();
+            clsCustomerCollection filteredData = new clsCustomerCollection();
             //apply a blank string (should return all records):
-            FilteredData.ReportByEmail("");
+            filteredData.ReportByEmail("");
             //compare values
-            Assert.AreEqual(FilteredData, collection);
+            Assert.AreEqual(data.Count, filteredData.Count);
         }
 
     }
