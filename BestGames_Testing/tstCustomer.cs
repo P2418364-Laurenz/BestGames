@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using BestGames_Libary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -8,10 +9,11 @@ namespace BestGames_Testing
     public class tstCustomer
     {
         [TestMethod]
-        public void TestClass()
+        public String TestClass()
         {
             clsCustomer aCustomer = new clsCustomer();
             Assert.IsNotNull(aCustomer);
+            return aCustomer.cusName;
         }
 
         [TestMethod]
@@ -92,5 +94,65 @@ namespace BestGames_Testing
             Assert.AreEqual(aCustomer.onlyContains("abacadaba", "abcd"), true);
             Assert.AreEqual(aCustomer.onlyContains(";DROP *;execute;", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"), false);
         }
+
+        [TestMethod]
+        public void customerCollectionOk()
+        {
+            clsCustomerCollection allCustomers = new clsCustomerCollection();
+            List<clsCustomer> TestList = new List<clsCustomer>();
+            clsCustomer tstCustomer = new clsCustomer();
+            tstCustomer.cusId = 1;
+            tstCustomer.cusName = "Test Names";
+            tstCustomer.cusEmail = "test@name.com";
+            tstCustomer.cusPassword = "hidden";
+            tstCustomer.cusDateRegister = new DateTime();
+            tstCustomer.cusAccountStatus = true;
+            Assert.IsNotNull(allCustomers);
+            TestList.Add(tstCustomer);
+            allCustomers.customerList = TestList;
+            Assert.AreEqual(allCustomers.customerList, TestList);
+        }
+
+        [TestMethod]
+        public void customerCollectionCount()
+        {
+            clsCustomerCollection allCustomers = new clsCustomerCollection();
+            clsCustomer tstCustomer1 = new clsCustomer();
+            allCustomers.add(tstCustomer1);
+            Int32 count = 2;
+            Assert.AreEqual(allCustomers.Count, count);
+        }
+
+        [TestMethod]
+        public void thisCustomerCollection()
+        {
+            clsCustomerCollection customerList = new clsCustomerCollection();
+            clsCustomer tstCustomer = new clsCustomer();
+            tstCustomer.cusId = 1;
+            tstCustomer.cusName = "Test Names";
+            tstCustomer.cusEmail = "test@name.com";
+            tstCustomer.cusPassword = "hidden";
+            tstCustomer.cusDateRegister = new DateTime();
+            tstCustomer.cusAccountStatus = true;
+            customerList.thisCustomer = tstCustomer;
+            Assert.AreEqual(customerList.thisCustomer, tstCustomer);
+        }
+
+        [TestMethod]
+        public void testAddCustomer()
+        {
+            clsCustomerCollection customerList = new clsCustomerCollection();
+            clsCustomer tstCustomer1 = new clsCustomer();
+            tstCustomer1.cusName = "Tester1";
+            clsCustomer tstCustomer2 = new clsCustomer();
+            tstCustomer2.cusName = "Tester2";
+            List<clsCustomer> tstList = new List<clsCustomer>();
+            tstList.Add(tstCustomer1);
+            tstList.Add(tstCustomer2);
+            customerList.add(tstCustomer1);
+            customerList.add(tstCustomer2);
+            Assert.AreEqual(customerList.customerAtIndex(1), tstList[1]);
+        }
+
     }
 }
