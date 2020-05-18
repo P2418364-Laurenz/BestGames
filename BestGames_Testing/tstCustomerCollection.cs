@@ -161,7 +161,45 @@ namespace BestGames_Testing
             //compare values
             Assert.AreEqual(data.Count, filteredData.Count);
         }
-
+        [TestMethod]
+        public void ReportByPostCodeNoneFound()
+        {
+            //create an instance of the class containing unfilitered results
+            clsCustomerCollection data = new clsCustomerCollection();
+            //use an email that doesn't exist
+            data.ReportByEmail("x@y.z");
+            //compare values
+            Assert.AreEqual(0, data.Count);
+        }
+        [TestMethod]
+        public void ReportByEmailTestDataFound()
+        {
+            //create an instance of the data
+            clsCustomerCollection data = new clsCustomerCollection();
+            //var to store outcome
+            Boolean OK = true;
+            //apply an email that doesn't exist
+            data.ReportByEmail("x@z");
+            //check that the correct number of records are found
+            if (data.Count==2)
+            {
+                //check that the first record is cusId 10091
+                if (data.CustomerList[0].cusId != 10091)
+                {
+                    OK = false;
+                }
+                //check that the first record is ID cusId 10092
+                if (data.CustomerList[1].cusId != 10092)
+                {
+                    OK = false;
+                }
+            }
+            else
+            {
+                OK = false;
+            }
+            //test to see that there are no records
+            Assert.IsTrue(OK);
+        }
     }
-
 }

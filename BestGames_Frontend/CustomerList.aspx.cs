@@ -8,13 +8,19 @@ using BestGames_Libary;
 
 public partial class CustomerList : System.Web.UI.Page
 {
+    //page load event
     protected void Page_Load(object sender, EventArgs e)
     {
+        //check postback
         if (IsPostBack == false)
         {
             DisplayCustomers();
         }
     }
+
+    /// <summary>
+    /// Dispalys the customer list in the ListBox
+    /// </summary>
     void DisplayCustomers()
     {
         //create instance of customer collection
@@ -29,6 +35,7 @@ public partial class CustomerList : System.Web.UI.Page
         CustomerListBox.DataBind();
     }
 
+    //click btn add event handler
     protected void btnAdd_click(object sender, EventArgs e)
     {
         //store -1 into the session object to indicate this is a new record
@@ -37,6 +44,7 @@ public partial class CustomerList : System.Web.UI.Page
         Response.Redirect("aCustomer.aspx");
     }
 
+    //button click event
     protected void btnDelete_Click(object sender, EventArgs e)
     {
         //store primary key
@@ -58,6 +66,7 @@ public partial class CustomerList : System.Web.UI.Page
         }
     }
 
+    //btn edit click event
     protected void btnEdit_Click(object sender, EventArgs e)
     {
         //var to store the primary key value of the record to be edited
@@ -77,5 +86,41 @@ public partial class CustomerList : System.Web.UI.Page
             //display error because nothing was selected from the list
             lblError.Text = "Please select a record from the list";
         }
+    }
+
+    //btn apply filter click
+    protected void btnApplyFilter_Click(object sender, EventArgs e)
+    {
+        //create an instance of the address collection
+        clsCustomerCollection collection = new clsCustomerCollection();
+        //filter the collection by the input
+        collection.ReportByEmail(txtFilter.Text);
+        //set CustomerListBox data source to new filtered list
+        CustomerListBox.DataSource = collection.CustomerList;
+        //set the name of the primary key
+        CustomerListBox.DataValueField = "cusId";
+        //State the name of the field to display
+        CustomerListBox.DataTextField = "cusEmail";
+        //bind the data to the list
+        CustomerListBox.DataBind();
+    }
+
+    //btn clear filter click
+    protected void btnClearFilter_Click(object sender, EventArgs e)
+    {
+        //create an instance of the customer collection
+        clsCustomerCollection data = new clsCustomerCollection();
+        //filter
+        data.ReportByEmail("");
+        //clear any existing filter to tidy up the interface
+        txtFilter.Text = "";
+        //set the data source
+        CustomerListBox.DataSource = data.CustomerList;
+        //set the name of the primary key
+        CustomerListBox.DataValueField = "cusId";
+        //set the name of the field to display
+        CustomerListBox.DataTextField = "cusName";
+        //bind the data to the list
+        CustomerListBox.DataBind();
     }
 }

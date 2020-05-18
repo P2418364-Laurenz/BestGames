@@ -10,30 +10,12 @@ namespace BestGames_Libary
 
         public clsCustomerCollection()
         {
-            //vars for index and record counter
-            Int32 Index = 0, RecordCount = 0;
-            //create new collection object
+            //object for data connection
             clsDataConnection DB = new clsDataConnection();
-            //execute select all from database
+            //execute the stored procedure
             DB.Execute("tblCustomerReturnAll");
-            //get the count of the returned query result and store it in RecordCount
-            RecordCount = DB.Count;
-            //while looping through records to process
-            while (Index < RecordCount)
-            {
-                //create blank address
-                clsCustomer address = new clsCustomer();
-                //read in the fields from the current record
-                address.cusAccountStatus = Convert.ToBoolean(DB.DataTable.Rows[Index]["u_status"]);
-                address.cusDateRegister = Convert.ToDateTime(DB.DataTable.Rows[Index]["u_creation_date"]);
-                address.cusEmail = Convert.ToString(DB.DataTable.Rows[Index]["u_email"]);
-                address.cusId = Convert.ToInt32(DB.DataTable.Rows[Index]["u_id"]);
-                address.cusName = Convert.ToString(DB.DataTable.Rows[Index]["u_name"]);
-                address.cusPassword = Convert.ToString(DB.DataTable.Rows[Index]["u_password"]);
-                //add the result to customer list
-                mCustomerList.Add(address);
-                Index++;
-            }
+            //populate the array list with the data table
+            PopulateArray(DB);
         }
 
         public List<clsCustomer> CustomerList
@@ -115,11 +97,11 @@ namespace BestGames_Libary
             //add record to db - connect first
             clsDataConnection DB = new clsDataConnection();
             //set parameters for stored procedure
-            DB.AddParameter("@cusName", mThisCustomer.cusName);
-            DB.AddParameter("@cusEmail", mThisCustomer.cusEmail);
-            DB.AddParameter("@cusPassword", mThisCustomer.cusPassword);
+            DB.AddParameter("@uName", mThisCustomer.cusName);
+            DB.AddParameter("@uEmail", mThisCustomer.cusEmail);
+            DB.AddParameter("@uPassword", mThisCustomer.cusPassword);
             //execute query and return the result (u_id/cusId)
-            return DB.Execute("tblCustomerInsert");
+            return DB.Execute("tblCustomerAdd");
         }
 
         /// <summary>
@@ -142,7 +124,44 @@ namespace BestGames_Libary
 
         public void ReportByEmail(string email)
         {
-            //filters the records based on a full or partial email
+            //filters the records based on a full or partial email address
+            //create new connection
+            clsDataConnection db = new clsDataConnection();
+            //add parameter for procedure
+            db.AddParameter("@uEmail", email);
+            //execute procedure
+            db.Execute("tblCustomerFilterEmail");
+            //populate array list with the data table
+            PopulateArray(db);
+        }
+
+        void PopulateArray(clsDataConnection DB)
+        {
+            //populates the array list based on the data table in the paramter DB
+            //var for index
+            Int32 Index = 0;
+            //var to store the record count
+            Int32 RecordCount;
+            //get the count of the record
+            RecordCount = DB.Count;
+            mCustomerList = new List<clsCustomer>();
+            //while there are records to process
+            while (Index < RecordCount)
+            {
+                //create a blank customer
+                clsCustomer customer = new clsCustomer();
+                //read the fields from current record
+                customer.cusAccountStatus = Convert.ToBoolean(DB.DataTable.Rows[Index]["u_status"]);
+                customer.cusDateRegister = Convert.ToDateTime(DB.DataTable.Rows[Index]["u_creation_date"]);
+                customer.cusEmail = Convert.ToString(DB.DataTable.Rows[Index]["u_email"]);
+                customer.cusId = Convert.ToInt32(DB.DataTable.Rows[Index]["u_id"]);
+                customer.cusName = Convert.ToString(DB.DataTable.Rows[Index]["u_name"]);
+                customer.cusPassword = Convert.ToString(DB.DataTable.Rows[Index]["u_password"]);
+                //add the record to the private data member
+                mCustomerList.Add(customer);
+                //point at the next record
+                Index++;
+            }
         }
     }
 }

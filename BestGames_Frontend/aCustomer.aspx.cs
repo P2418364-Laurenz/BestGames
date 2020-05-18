@@ -11,10 +11,12 @@ public partial class aCustomer : System.Web.UI.Page
     //store variable for cus ID from session (depending on the event handler!)
     Int32 cusId;
 
+    //page load event
     protected void Page_Load(object sender, EventArgs e)
     {
         //get the number of the customer id to be processed
         cusId = Convert.ToInt32(Session["cusId"]);
+        //check if PostBack is false to do further checks...
         if (IsPostBack == false)
         {
             //if this is not a new record
@@ -85,6 +87,7 @@ public partial class aCustomer : System.Web.UI.Page
 
     protected void btnCancel_Click(object sender, EventArgs e)
     {
+        //redirect the cancel click to the customer list
         Response.Redirect("CustomerList.aspx");
     }
 
@@ -116,6 +119,9 @@ public partial class aCustomer : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// Displays the customer
+    /// </summary>
     void DisplayCustomer()
     {
         //creat instance of collection
